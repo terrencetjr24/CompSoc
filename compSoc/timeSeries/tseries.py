@@ -5,8 +5,8 @@ from keras import Sequential
 from keras.layers import LSTM, Dense
 from pandas import read_csv
 
-TEST_PORTION = 0.8
-NUM_EPOCHS = 50
+TEST_PORTION = 0.75
+NUM_EPOCHS = 100
 BATCH_SIZE = 70
 
 def getData(directory, filename):
@@ -23,6 +23,8 @@ def getData(directory, filename):
 
 	#	Append the output vector
 	inputs = values[:-1]
+	print(inputs.shape)
+
 	outputs = values[1:,3].reshape(values[1:,3].shape[0],1)
 	values = np.concatenate((inputs, outputs), 1)
 
@@ -33,16 +35,16 @@ def getData(directory, filename):
 	print((train.shape, test.shape))
 
 	x = np.array(list(range(values.shape[0])))
-	plt.plot(x, values[:,3])
-	plt.show()
-	plt.clf()
+	#plt.plot(x, values[:,3])
+	#plt.show()
+	#plt.clf()
 
 	x_train = x[:int(x.shape[0] * TEST_PORTION)]
 	x_test = x[int(x.shape[0] * TEST_PORTION):]
-	plt.plot(x_train, train[:,3])
-	plt.plot(x_test, test[:,3])
-	plt.show()
-	plt.clf()
+	#plt.plot(x_train, train[:,3])
+	#plt.plot(x_test, test[:,3])
+	#plt.show()
+	#plt.clf()
 
 	return (train, test)
 
@@ -85,11 +87,11 @@ if __name__ == '__main__':
 
 	#	Perform some analytical analysis
 	real = test_y[1:]
-	naive = test_y[:-1]	#	Assume t(i+1) = t(i)
+	#naive = test_y[:-1]	#	Assume t(i+1) = t(i)
 	predicted = y_hat[1:].reshape(y_hat[1:].shape[0])
 
 	plt.plot(real, label='real')
-	plt.plot(naive, label='naive')
+	#plt.plot(naive, label='naive')
 	plt.plot(predicted, label='predicted')
 	plt.legend()
 	plt.show()
@@ -97,8 +99,9 @@ if __name__ == '__main__':
 
 	placedBets = stockPolicy(predicted)
 	optimalBets = stockPolicy(real)
-	naiveBets = stockPolicy(naive)
+	#naiveBets = stockPolicy(naive)
 
 	print(optimalBets.shape)
+	#print(f"The optimal bets are: {optimalBets}")
 	print(sum(placedBets == optimalBets))
-	print(sum(naiveBets == optimalBets))
+	#print(sum(naiveBets == optimalBets))
