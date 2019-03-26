@@ -1,0 +1,14 @@
+import time
+
+def calcProd():
+    prod = 1
+    for i in range(1,400000):
+        prod = prod * i;
+    return prod
+
+startTim = time.time()
+prod = calcProd()
+endTim = time.time()
+
+print(f"The result is {len(str(prod))} digits long")
+print(f"The calculation took %d {endTim - startTim}")

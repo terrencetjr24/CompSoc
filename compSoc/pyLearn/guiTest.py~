@@ -4,7 +4,7 @@ class MyFirstGUI:
     def __init__(self, master):
         self.master = master
         master.title("A simple GUI")
-
+        root.title('My title')
         self.label = Label(master, text="This is our first GUI!")
         self.label.pack()
 
